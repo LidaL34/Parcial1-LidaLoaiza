@@ -1,4 +1,5 @@
-const URL = `http://${window.location.hostname}:8080`;
+
+const URL = `http://${window.location.hostname}:5050`;
 let socket = io(URL, {
     path: '/real-time'
 });
@@ -145,15 +146,30 @@ function gameOver() {
 1) Include the socket method to listen to events and change the players position.
 _____________________________________________ */
 
-
+socket.on ('player-position',playerMovement =>{
+    console.log(`Player's Positions:${playerMovement}`);
+    position = playerMovement;
+})
 
 /*___________________________________________
 
 2) Include the fetch method to POST each time the player scores a point
 _____________________________________________ */
 
+
+
 async function sendScore(point) {
-    //
+    let score = {content:'Score'}
+
+    const request = {
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(score)
+    }
+    
+    await fetch('http://localhost:${PORT}/score',request)
 }
 
 /*___________________________________________
@@ -162,5 +178,9 @@ async function sendScore(point) {
 _____________________________________________ */
 
 async function getFinalScore() {
-    //
+    const point = await fetch('http://localhost:${PORT}/final-score')
+    const data = await response.json()
+    let {content} = data
+    point = content
+    console.log(content)
 }

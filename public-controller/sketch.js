@@ -1,4 +1,5 @@
-const URL = `http://${window.location.hostname}:8080`;
+
+const URL = `http://${window.location.hostname}:5050`;
 let socket = io(URL, {
     path: '/real-time'
 });
@@ -53,7 +54,6 @@ function mousePressed() {
 }
 
 
-
 function mouseReleased() {
     buttonReleased(leftButton)
     buttonReleased(rightButton)
@@ -62,7 +62,9 @@ function mouseReleased() {
 
         1) Emit a message when the user is not tapping at any button
         _____________________________________________ */
-
+        socket.emit("no-clicked",mouseReleased)
+        console.log('release');
+        sendDirection();
 
     }
 }
@@ -72,6 +74,18 @@ function mouseReleased() {
 2) Create a function that includes the socket method to emit the directions
 _____________________________________________ */
 
-function sendDirection(button) {
-    //
+
+
+async function sendDirection(button) {
+    let boton = {content:'Directions'}
+
+    const request = {
+        method : 'POST',
+        headers : {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(boton)
+    }
+    
+    await fetch('http://localhost:5050/controller',request)
 }

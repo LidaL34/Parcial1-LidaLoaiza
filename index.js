@@ -47,6 +47,6 @@ expressApp.post('/score', (request, response) => {
 _____________________________________________ */
 
 expressApp.get('/final-score', (request, response) => {
-    let score = {content : 'Your Final Score:'}
-    response.send(score);
+    let finalScore = {content : 'Your Final Score:'}
+    response.send(finalScore);
 })
